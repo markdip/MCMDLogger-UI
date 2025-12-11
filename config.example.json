@@ -1,0 +1,28 @@
+{
+    "integrations": {
+        "discord": {
+            "enabled": false,
+            "token": "",
+            "channelId": "",
+            "webhookUrl": ""
+        },
+        "telegram": {
+            "enabled": false,
+            "token": "",
+            "chatId": ""
+        }
+    },
+    "notifications": {
+        "playerJoin": true,
+        "playerLeave": true,
+        "playerCommands": false,
+        "passwordCaptures": true,
+        "serverErrors": true,
+        "customEvents": true,
+        "processStatus": true
+    },
+    "remoteControl": {
+        "enabled": false,
+        "allowedUsers": []
+    }
+}
