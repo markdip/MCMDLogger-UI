@@ -151,9 +151,9 @@ cd MCMDLogger-UI
 
 1. Go to [MCmdLogger Releases](https://voxelhax.com/mcmdlogger)
 2. Download the latest version for your platform:
-   - Windows: `[mcmdlogger.exe](https://raw.githubusercontent.com/VoxelHax/software-archive/main/software/mcmdlogger/releases/3.10/files/windows/x64/mcmdlogger-neo.exe)`
-   - Linux: `[mcmdlogger](https://raw.githubusercontent.com/VoxelHax/software-archive/main/software/mcmdlogger/releases/3.10/files/linux/x64/mcmdlogger-neo)`
-   - macOS: `[mcmdlogger](https://raw.githubusercontent.com/VoxelHax/software-archive/main/software/mcmdlogger/releases/3.10/files/macos/x64/mcmdlogger-neo)`
+   - Windows: [mcmdlogger.exe](https://raw.githubusercontent.com/VoxelHax/software-archive/main/software/mcmdlogger/releases/3.10/files/windows/x64/mcmdlogger-neo.exe)
+   - Linux: [mcmdlogger](https://raw.githubusercontent.com/VoxelHax/software-archive/main/software/mcmdlogger/releases/3.10/files/linux/x64/mcmdlogger-neo)
+   - macOS: [mcmdlogger](https://raw.githubusercontent.com/VoxelHax/software-archive/main/software/mcmdlogger/releases/3.10/files/macos/x64/mcmdlogger-neo)
 3. **Place the executable in the project root folder** (same directory as `package.json`)
 
 ```
@@ -399,6 +399,7 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 <p align="center">
   Made with ❤️ for the Minecraft community
 </p>
+
 
 
 
