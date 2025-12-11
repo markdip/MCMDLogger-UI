@@ -369,8 +369,8 @@ mcmdgui/
 
 ## 📚 Documentation Links
 
-- **MCmdLogger Repository:** [github.com/Jenya705/MCmdLogger](https://github.com/Jenya705/MCmdLogger)
-- **MCmdLogger Releases:** [Download MCmdLogger](https://github.com/Jenya705/MCmdLogger/releases)
+- **MCmdLogger:** [MCmdLogger voxelhax]([https://github.com/Jenya705/MCmdLogger](https://voxelhax.com/mcmdlogger))
+- **MCmdLogger Documentation:** [MCmdLogger Docs](https://mcmdlogger.voxelhax.com/docs/intro)
 - **PrismarineJS:** [prismarine.js.org](https://prismarine.js.org)
 
 ---
@@ -399,6 +399,7 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 <p align="center">
   Made with ❤️ for the Minecraft community
 </p>
+
 
 
 
