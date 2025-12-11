@@ -24,7 +24,7 @@
 
 ## 📖 Overview
 
-**MCmdLogger GUI** is a sleek, modern Electron-based graphical interface for [MCmdLogger](https://github.com/Jenya705/MCmdLogger) — a powerful MITM (Man-in-the-Middle) proxy tool for Minecraft. This GUI simplifies the process of intercepting, monitoring, and modifying Minecraft network traffic.
+**MCmdLogger GUI** is a sleek, modern Electron-based graphical interface for [MCmdLogger](https://voxelhax.com/mcmdlogger) — a powerful MITM (Man-in-the-Middle) proxy tool for Minecraft. This GUI simplifies the process of intercepting, monitoring, and modifying Minecraft network traffic.
 
 ### What is MCmdLogger?
 
@@ -399,6 +399,7 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 <p align="center">
   Made with ❤️ for the Minecraft community
 </p>
+
 
 
 
