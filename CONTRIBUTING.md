@@ -49,7 +49,7 @@ Feature requests are welcome! Please include:
 
 ```bash
 # Clone your fork
-git clone https://github.com/YOUR_USERNAME/mcmdgui.git
+git clone https://github.com/ArabKustam/mcmdgui.git
 cd mcmdgui
 
 # Install dependencies
@@ -130,3 +130,4 @@ const translations = {
 Feel free to open an issue with your question or reach out to the maintainers.
 
 Thank you for contributing! 🙏
+
