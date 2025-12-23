@@ -1,6 +1,6 @@
 {
   "name": "mcmdgui",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Modern GUI for MCmdLogger - MITM tool for Minecraft",
   "main": "main.js",
   "scripts": {
